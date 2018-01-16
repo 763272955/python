@@ -1,0 +1,196 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}ID3_Employee_SYS{% endblock %}
+{% block navbar %}
+	<nav class="navbar navbar-static-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+				 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+			</button> <a class="navbar-brand" href="#">基于ID3算法的员工信息管理与决策系统</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+				<ul class="nav navbar-nav navbar-right">
+					{% if current_user.is_authenticated %}
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            {{ current_user.username }}
+                            <strong class="caret"></strong>
+                        </a>
+						<ul class="dropdown-menu">
+							<li class="divider"></li>
+							<li>
+								<a href="{{ url_for('auth.logout') }}">Logout</a>
+							</li>
+							<li class="divider"></li>
+						</ul>
+					</li>
+					{% else %}
+					<li>
+						<a href="{{ url_for('auth.login') }}">Login</a>
+					</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</nav>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+		<div class="row">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-6">
+			{% for message in get_flashed_messages() %}
+			<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			{{ message }}
+			</div>
+			{% endfor %}
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">项目<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li class="divider"></li>
+								<li>
+									<a href="{{ url_for('main.trainset_attendance') }}">考勤</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="{{ url_for('main.trainset_contribution') }}">贡献</a>
+								</li>
+								<li class="divider"></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-5">
+					<div class="navbar-form navbar-left">
+						<a href="{{ url_for('main.pk_contribution') }}">
+							<button type="submit" class="btn btn-default">
+								对比
+							</button>
+						</a>
+					</div>
+				</div>
+			</nav>
+			<table class="table table-bordered table-hover table-advance table-condensed">
+				<thead>
+					<tr>
+						<th class='active' style='text-align: center;'>名称</th>
+						<th class='active' style='text-align: center;'>结果</th>
+						<th class="active" style='text-align: center;'>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for set in trainsets %}
+					<tr class>
+						<td style='vertical-align: middle;text-align: center;'>{{ set.trainset_name }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ set.trainset }}</td>
+						<td>
+							<a href="{{ url_for('main.delete_trainset', trainsetname=set.trainset_name) }}" class="btn mini purple">删除</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-3">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">训练集</strong></a>
+						</li>
+					</ul>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<div class="navbar-form navbar-left">
+						<a href="{{ url_for('main.train_contribution') }}">
+							<button type="submit" class="btn btn-default">
+								训练
+							</button>
+						</a>
+					</div>
+				</div>
+			</nav>
+			<table class="table table-bordered table-hover table-advance table-condensed">
+				<thead>
+					<tr>
+						<th class='active' style='text-align: center;'>是否工具</th>
+						<th class='active' style='text-align: center;'>收益金额</th>
+						<th class="active" style='text-align: center;'>满意程度</th>
+						<th class="active" style='text-align: center;'>最终分数</th>
+						<th class="active" style='text-align: center;'>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for contri in contributions_train %}
+					<tr class>
+						<td style='vertical-align: middle;text-align: center;'>{{ contri.is_tool }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ contri.profit }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ contri.satistied_level }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ contri.result }}</td>
+						<td>
+							<a href="{{ url_for('main.insert_train_contribution_', selectid=contri.id) }}" class="btn mini purple">放入测试集</a>
+							<a href="{{ url_for('main.delete_train_contribution_train', selectid=contri.id) }}" class="btn mini purple">删除</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-6">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">测试集</strong></a>
+						</li>
+					</ul>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-3">
+					<div class="navbar-form navbar-left">
+						<a href="{{ url_for('main.insert_train_contribution') }}">
+							<button type="submit" class="btn btn-default">
+								插入
+							</button>
+						</a>
+					</div>
+				</div>
+			</nav>
+			<table class="table table-bordered table-hover table-advance table-condensed">
+				<thead>
+					<tr>
+						<th class='active' style='text-align: center;'>是否工具</th>
+						<th class='active' style='text-align: center;'>收益金额</th>
+						<th class="active" style='text-align: center;'>满意程度</th>
+						<th class="active" style='text-align: center;'>最终分数</th>
+						<th class="active" style='text-align: center;'>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for contri in contributions %}
+					<tr class>
+						<td style='vertical-align: middle;text-align: center;'>{{ contri.is_tool }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ contri.profit }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ contri.satistied_level }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ contri.result }}</td>
+						<td>
+							<a href="{{ url_for('main.insert_train_contribution_train', selectid=contri.id) }}" class="btn mini purple">放入训练集</a>
+							<a href="{{ url_for('main.delete_train_contribution', selectid=contri.id) }}" class="btn mini purple">删除</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

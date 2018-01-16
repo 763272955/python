@@ -1,0 +1,12 @@
+{% for url in result_infos %}
+
+	    		<li class="list-group-item"><span class="label label-default">ÈÎÎñid:</span><span class="label label-success">{{url[0]}}</span><span class="label label-default">ÍøÖ·:</span><span class="label label-info"><a href="{{url[1]}}">{{url[1]}}</a></span></li>
+
+			 {% endfor %}
+
+
+
+<form id="form1" name="form1" method="post" action="member.php?a=login">
+
+
+

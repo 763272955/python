@@ -1,0 +1,3 @@
+主页连接失败, 原因: HTTPConnectionPool(host='taiyuan.cnwuye.cn', port=80): Read timed out. (read timeout=10)
+________________________________
+http://taiyuan.cnwuye.cn/f/bencandy-htm-fid-77-id-91.html

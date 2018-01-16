@@ -1,0 +1,15 @@
+
+可以将要扫描的IP地址目标写在一个txt文档，如下面命令行中的IP999.txt。新建一个文档作为输出文档，见下面命令行中的nmap.txt。
+
+
+nmap -p0-65535 -sV -sS -T4 -oN C:\Users\Administrator.user-PC\Desktop\nmap.txt -iL C:\Users\Administrator.user-PC\Desktop\IP999.txt
+
+
+nmap -p0-65535 -sV -sS -T4 -oN E:\端口扫描工具\扫描结果\outputfile\10.0..2..3.txt -iL E:\端口扫描工具\扫描结果\10.0..2..3.txt
+nmap -p1024-10000 -sV -sS -T4 -oN E:\端口扫描工具\扫描结果\outputfile\10.4..5..7.txt -iL E:\端口扫描工具\扫描结果\10.4..5..7.txt
+nmap -p0-65535 -sV -sS -T4 -oN E:\端口扫描工具\扫描结果\outputfile\10.8..9..10.txt -iL E:\端口扫描工具\扫描结果\10.8..9..10.txt
+nmap -p0-65535 -sV -sS -T4 -oN E:\端口扫描工具\扫描结果\outputfile\10.128.22.0.txt -iL E:\端口扫描工具\扫描结果\10.128.22.0.txt
+nmap -p0-65535 -sV -sS -T4 -oN E:\端口扫描工具\扫描结果\outputfile\192!10.32..20..22.txt -iL E:\端口扫描工具\扫描结果\192!10.32..20..22.txt
+
+
+nmap -p0-65535 -sV -sS -T4 -oN E:\端口扫描工具\扫描结果\2.txt -iL E:\端口扫描工具\扫描结果\1.txt

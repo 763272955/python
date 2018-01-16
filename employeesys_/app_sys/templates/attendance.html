@@ -1,0 +1,98 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}ID3_Employee_SYS{% endblock %}
+{% block navbar %}
+	<nav class="navbar navbar-static-top navbar-inverse" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+				 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+			</button> <a class="navbar-brand" href="#">基于ID3算法的员工信息管理与决策系统</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+				<ul class="nav navbar-nav navbar-right">
+					{% if current_user.is_authenticated %}
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            {{ current_user.username }}
+                            <strong class="caret"></strong>
+                        </a>
+						<ul class="dropdown-menu">
+							<li class="divider"></li>
+							<li>
+								<a href="{{ url_for('auth.logout') }}">Logout</a>
+							</li>
+							<li class="divider"></li>
+						</ul>
+					</li>
+					{% else %}
+					<li>
+						<a href="{{ url_for('auth.login') }}">Login</a>
+					</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</nav>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-6">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="{{ url_for('main.employee') }}" class="navbar-brand">后退</a>
+						</li>
+					</ul>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<div class="navbar-form navbar-left">
+						<a href="{{ url_for('main.insert_attendance', employees_id=employee_id) }}">
+							<button type="submit" class="btn btn-default">
+								插入
+							</button>
+						</a>
+					</div>
+				</div>
+			</nav>
+			<table class="table table-bordered table-hover table-advance table-condensed">
+				<thead>
+					<tr>
+						<th class='active' style='text-align: center;'>考勤年份</th>
+						<th class='active' style='text-align: center;'>考勤月份</th>
+						<th class='active' style='text-align: center;'>请假天数</th>
+						<th class='active' style='text-align: center;'>病假天数</th>
+						<th class='active' style='text-align: center;'>迟到次数</th>
+						<th class="active" style='text-align: center;'>旷工次数</th>
+						<th class="active" style='text-align: center;'>分数</th>
+						<th class="active" style='text-align: center;'>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for atten in attendances %}
+					<tr class>
+						<td style='vertical-align: middle;text-align: center;'>{{ atten.year_date }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ atten.month_date }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ atten.leave_number }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ atten.sickleave_number }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ atten.late_number }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ atten.absenteeism_number }}</td>
+						<td style='vertical-align: middle;text-align: center;'>{{ atten.score }}</td>
+						<td>
+							<a href="{{ url_for('main.change_attendance', selectid=atten.id, employees_id=employee_id) }}" class="btn mini purple">修改</a>
+							<a href="{{ url_for('main.delete_attendance', selectid=atten.id, employees_id=employee_id) }}" class="btn mini purple">删除</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-3">
+		</div>
+	</div>
+</div>
+{% endblock %}
